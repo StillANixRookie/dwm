@@ -93,7 +93,12 @@
  		}
  		else {
 -			h = (m->wh - ty) / (n - i);
--			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+-			resize(c,
+-				m->wx + mw,
+-				m->wy + ty,
+-				m->ww - mw - (2*c->bw),
+-				h - (2*c->bw),
+-				False);
 -			ty += HEIGHT(c);
 +			smh = m->mh * m->smfact;
 +			if(!(nexttiled(c->next)))
@@ -103,11 +108,21 @@
 +			if(h < minwsz) {
 +				c->isfloating = True;
 +				XRaiseWindow(dpy, c->win);
-+				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*c->bw), h - (2*c->bw), False);
++				resize(c,
++					m->mx + (m->mw / 2 - WIDTH(c) / 2),
++					m->my + (m->mh / 2 - HEIGHT(c) / 2),
++					m->ww - mw - (2*c->bw),
++					h - (2*c->bw),
++					False);
 +				ty -= HEIGHT(c);
 +			}
 +			else
-+				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
++				resize(c,
++					m->wx + mw,
++					m->wy + ty,
++					m->ww - mw - (2*c->bw),
++					h - (2*c->bw),
++					False);
 +			if(!(nexttiled(c->next)))
 +				ty += HEIGHT(c) + smh;
 +			else
