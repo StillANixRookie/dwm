@@ -9,6 +9,27 @@ for X.
 
 In order to build dwm you need the Xlib header files.
 
+# My patches
+
+- [x] dwm-actualfullscreen-20191112-cb3f58a.diff
+- [x] dwm-centeredmaster-6.1.diff
+- [x] dwm-combo-6.1.diff
+- [x] dwm-cool-autostart-6.2.diff
+- [x] dwm-dragmfact-6.2.diff
+- [x] dwm-dwmc-6.2.diff
+- [x] dwm-movestack-6.1.diff
+- [x] dwm-pertag-6.2.diff
+- [x] dwm-restartsig-20180523-6.2.diff
+- [x] dwm-rmaster-6.1.diff
+- [x] dwm-selectivefakefullscreen-20200513-f09418b.diff
+- [x] dwm-swallow-20200522-7accbcf.diff
+- [x] dwm-transfer-6.2.diff
+- [x] dwm-warp-6.2.diff
+- [x] dwm-zoomswap-6.2.diff
+- [x] dwm-smfact-6.0.diff
+- [ ] dwm-pertag-tab-6.1-v2b.diff
+- [ ] dwm-xresources-6.2.diff
+
 # Installation
 
 Edit config.mk to match your local setup (dwm is installed
