@@ -1,46 +1,58 @@
 // See LICENSE file for copyright and license details.
 
+// XRES VARS
+//   normbgcolor
+//   normbordercolor
+//   normfgcolor
+//   selbgcolor
+//   selbordercolor
+//   selfgcolor
+//   borderpx
+//   snap
+//   gappih
+//   gappiv
+//   gappoh
+//   gappov
+//   showbar
+//   topbar
+//   mfact
+//   nmaster
+//   resizehints
+
 // appearance
-static const unsigned int borderpx = 1;        // border pixel of windows
-static const unsigned int snap     = 32;       // snap pixel
-static const unsigned int gappih   = 0;       /* horiz inner gap between windows */
-static const unsigned int gappiv   = 0;       /* vert inner gap between windows */
-static const unsigned int gappoh   = 20;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov   = 20;       /* vert outer gap between windows and screen edge */
-static const int smartgaps         = 0;        /* 1 means no outer gap when there is only one window */
-static const int swallowfloating   = 0;        /* 1 means swallow floating windows by default */
-static const int showbar           = 0;        // 0 means no bar
-static const int topbar            = 1;        // 0 means bottom bar
-static const char *fonts[]         = { "monospace:size=10" };
-static const char dmenufont[]      = "Iosevka 15";
-static const char col_gray1[]      = "#222222";
-static const char col_gray2[]      = "#444444";
-static const char col_gray3[]      = "#bbbbbb";
-static const char col_gray4[]      = "#eeeeee";
-static const char col_cyan[]       = "#005577";
-static const char *colors[][3]     = {
-	//               fg         bg         border  
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+static unsigned int borderpx = 1;  // border pixel of windows
+static unsigned int snap     = 32; // snap pixel
+static unsigned int gappih   = 0;  // horiz inner gap between windows
+static unsigned int gappiv   = 10; // vert inner gap between windows
+static unsigned int gappoh   = 25; // horiz outer gap between windows and screen edge
+static unsigned int gappov   = 25; // vert outer gap between windows and screen edge
+static int showbar           = 0;  // 0 means no bar
+static int topbar            = 1;  // 0 means bottom bar
+
+// layouts
+static float mfact       = 0.60; // factor of master area size [0.05..0.95]
+static int   nmaster     = 1;    // number of clients in master area
+static int   resizehints = 1;    // 1 means respect size hints in tiled resizals
+
+static const int smartgaps       = 0; // 1 means no outer gap when there is only one window
+static const int swallowfloating = 0; // 1 means swallow floating windows by default
+static const char *fonts[]       = { "monospace:size=10" };
+static const char dmenufont[]    = "Iosevka 15";
+
+static char normbgcolor[]     = "#222222";
+static char normbordercolor[] = "#444444";
+static char normfgcolor[]     = "#bbbbbb";
+static char selfgcolor[]      = "#eeeeee";
+static char selbordercolor[]  = "#005577";
+static char selbgcolor[]      = "#005577";
+static char *colors[][3]      = {
+	//               fg           bg           border
+	[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+	[SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 static const char *const autostart[] = {
 	"dwmautos", NULL,
-//	"sxhkd", NULL,
-//	"urxvtd -q -o -f", NULL,
-//	"mpd", NULL,
-//	"xautolock -corners 0-0- -cornersize 30 -time 5 -locker lscr", NULL,
-//	"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1", NULL,
-//	"nm-applet", NULL,
-//	"xfce4-power-manager", NULL,
-//	"pamac-tray", NULL,
-//	"clipit", NULL,
-//	"blueman-applet", NULL,
-//	"ff-theme-util", NULL,
-//	"fix_xcursor", NULL,
-//	"reloadconfs", NULL,
-//	"xfsettingsd", NULL,
-//	"spicetify", NULL,
 	NULL // terminate
 };
 
@@ -48,29 +60,27 @@ static const char *const autostart[] = {
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-//	class      instance    title       tags mask     isfloating   isfakefullscreen monitor
-//	{ "Gimp",     NULL,       NULL,       0,            1,           0,               -1 },
-//	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           1,               -1 },
-// class       inst  title       tags mask  isfloating isterminal noswallow isfakefullscreen monitor
-	{ "Gimp",    NULL, NULL,           0,         1,         0,          0,       0,             -1 },
-	{ "Firefox", NULL, NULL,           1 << 8,    0,         0,         -1,       1,             -1 },
-	{ "st",      NULL, NULL,           0,         0,         1,         -1,       0,             -1 },
-	{ NULL,      NULL, "Event Tester", 0,         1,         0,          1,       0,             -1 }, /* xev */
+//	class         inst  tit   tags    isfloat isfakefull mon
+//	{ "Gimp",     NULL, NULL, 0,      1,      0,         -1 },
+//	{ "Firefox",  NULL, NULL, 1 << 8, 0,      1,         -1 },
+// class                  inst        tit       tags isfloat isterm noswall isfakefull mon
+	{ "Google-chrome-beta", NULL,         NULL,   1,   0,      0,     -1,     1,         -1 },
+	{ "Gimp",               NULL,         NULL,   0,   1,      0,      0,     0,         -1 },
+	{ "Firefox",            NULL,         NULL,   1,   0,      0,     -1,     1,         -1 },
+	{ "st",                 "visualiser", NULL,   2,   0,      1,     -1,     0,         -1 },
+	{ "Spotify",            NULL,         NULL,   2,   0,      1,     -1,     0,         -1 },
+	{ NULL,                 NULL, "Event Tester", 0,   1,      0,      1,     0,         -1 }, /* xev */
 };
 
-// layouts
-static const float mfact       = 0.40; // factor of master area size [0.05..0.95]
-//static const float smfact      = 0.00; // factor of tiled clients [0.00..0.95]
-static const int   nmaster     = 1;    // number of clients in master area
-static const int   resizehints = 1;    // 1 means respect size hints in tiled resizals
-
 static const Layout layouts[] = {
+	// first entry is default
+	// no layout function means floating behavior
 	// symbol     arrange function
+	{ "[]=",      tile },
 	{ "|M|",      centeredmaster },
-	{ "[]=",      tile },    // first entry is default
 	{ "[M]",      monocle },
 	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    // no layout function means floating behavior
+	{ "><>",      NULL },
 };
 
 // key definitions
@@ -86,10 +96,7 @@ static const Layout layouts[] = {
 
 // commands
 static char dmenumon[2] = "0"; // component of dmenucmd, manipulated in spawn()
-static const char *dmenucmd[] = { "dmrap",
-	"-a lightgrn", "-f", dmenufont, "-m 0 -l 10 -L mc",
-	NULL
-	};
+static const char *dmenucmd[] = { "dmrap -r -a lightgrn -l 10 -L mc", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 #include "movestack.c"
@@ -121,7 +128,7 @@ static Key keys[] = {
 	{ MODKEY|Mod4Mask,              XK_o,      incrohgaps,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_y,      incrovgaps,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_o,      incrovgaps,     {.i = -1 } },
-
+	// CLIENT CTRL
 	// modifier         key        function        argument
 	{ MODKEY,           XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY,           XK_Tab,    comboview,           {0} },
@@ -143,7 +150,6 @@ static Key keys[] = {
 	{ MODKEY,           XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,           XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY,           XK_space,  setlayout,      {0} },
-
 	{ MODKEY|ShiftMask, XK_0,      combotag,            {.ui = ~0 } },
 	{ MODKEY|ShiftMask, XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask, XK_f,      togglefullscr,  {0} },
@@ -153,9 +159,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask, XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask, XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask, XK_space,  togglefloating, {0} },
-
-	{ MODKEY|ControlMask, XK_q,     quit,           {0} },
-
+	{ MODKEY|ControlMask, XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
 };
 
